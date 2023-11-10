@@ -6,14 +6,8 @@ import 'screens/home.dart';
 import 'state/provider.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  final sharedPreferences = await SharedPreferences.getInstance();
-
   runApp(
     ProviderScope(
-      overrides: [
-        sharedPreferencesProvider.overrideWithValue(sharedPreferences),
-      ],
       child: MyApp(),
     ),
   );
