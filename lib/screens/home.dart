@@ -11,7 +11,7 @@ class MyHomePage extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Riverpod Notifier'),
+        title: const Text('Riverpod Generator'),
       ),
       body: Center(
         child: Column(

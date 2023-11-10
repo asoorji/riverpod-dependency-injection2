@@ -1,5 +1,2 @@
-# Riverpod notifier provider
-
-
-
-
+# Riverpod_generator 
+Auto generates providers
