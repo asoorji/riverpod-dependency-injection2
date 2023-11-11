@@ -1,2 +1,1 @@
-# Riverpod_generator 
-Auto generates providers
+# Riverpod filter listview when searched

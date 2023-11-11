@@ -7,33 +7,36 @@ class MyHomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    final counter = ref.watch(counterNotifierProvider);
-
+    final players = ref.watch(playerNotifierProvider);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Riverpod Generator'),
+        title: const Text('Riverpod Filtered List'),
       ),
-      body: Center(
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(counter.toString()),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    ref.read(counterNotifierProvider.notifier).decrement();
-                  },
-                  child: const Text('-'),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    ref.read(counterNotifierProvider.notifier).increment();
-                  },
-                  child: const Text('+'),
-                ),
-              ],
+            TextField(
+                onChanged: (value) {
+                  ref.read(playerNotifierProvider.notifier).filterPlayer(value);
+                },
+                decoration: const InputDecoration(
+                    labelText: "Search", suffixIcon: Icon(Icons.search))),
+            Expanded(
+              child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: players.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Text(
+                        players[index]["name"],
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      subtitle: Text(
+                        players[index]["country"],
+                      ),
+                    );
+                  }),
             ),
           ],
         ),

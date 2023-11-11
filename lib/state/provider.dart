@@ -1,25 +1,47 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'provider.g.dart';
+class PlayerNotifier extends Notifier<List<Map<String, dynamic>>> {
+  final List<Map<String, dynamic>> allPlayers = [
+    {"name": "Orji", "country": "Nigeria"},
+    {"name": "Smith", "country": "USA"},
+    {"name": "Garcia", "country": "Spain"},
+    {"name": "Kim", "country": "South Korea"},
+    {"name": "Müller", "country": "Germany"},
+    {"name": "Aso", "country": "Nigeria"},
+    {"name": "Chen", "country": "China"},
+    {"name": "Santos", "country": "Brazil"},
+    {"name": "Ivanov", "country": "Russia"},
+    {"name": "Tanaka", "country": "Japan"},
+    {"name": "Martinez", "country": "Argentina"},
+    {"name": "Lee", "country": "South Korea"},
+    {"name": "Kumar", "country": "India"},
+    {"name": "Dubois", "country": "France"},
+    {"name": "Alonso", "country": "Spain"},
+  ];
 
-@riverpod
-class CounterNotifier extends _$CounterNotifier {
   @override
-  int build() {
-    return 0;
+  build() {
+    return allPlayers;
   }
 
-  void increment() {
-    state++;
-  }
+  void filterPlayer(String playerName) {
+    List<Map<String, dynamic>> results = [];
 
-  void decrement() {
-    state--;
+    if (playerName.isEmpty) {
+      results = allPlayers;
+    } else {
+      results = allPlayers
+          .where((element) => element["name"]
+              .toString()
+              .toLowerCase()
+              .contains(playerName.toLowerCase()))
+          .toList();
+    }
+    state = results;
   }
 }
-// 
-// final counterNotifierProvider = NotifierProvider<CounterNotifier, int>(() {
-  // return CounterNotifier();
-// });
-// 
+
+final playerNotifierProvider =
+    NotifierProvider<PlayerNotifier, List<Map<String, dynamic>>>(() {
+  return PlayerNotifier();
+});
