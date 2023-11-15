@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
-class Home extends HookWidget {
+final counterProvider = StateProvider((ref) => 0);
+
+class Home extends HookConsumerWidget {
   const Home({super.key});
 
   @override
-  Widget build(context) {
-    final counter = useState(0);
-
+  Widget build(BuildContext context, WidgetRef ref) {
+    final counterH = useState(0);
+    final counterR = ref.watch(counterProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Flutter Hooks'),
@@ -18,10 +21,17 @@ class Home extends HookWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Text(
-              'Counter Value:',
+              'Counter for Hooks:',
             ),
             Text(
-              counter.value.toString(),
+              counterH.value.toString(),
+            ),
+            const SizedBox(height: 16),
+            const Text(
+              'Counter for Riverpod:',
+            ),
+            Text(
+              counterR.toString(),
             ),
           ],
         ),
@@ -31,17 +41,15 @@ class Home extends HookWidget {
         children: [
           FloatingActionButton(
             onPressed: () {
-              counter.value--;
+              counterH.value++;
             },
-            tooltip: 'Decrement',
-            child: const Icon(Icons.remove),
+            child: const Icon(Icons.add),
           ),
           const SizedBox(height: 16),
           FloatingActionButton(
             onPressed: () {
-              counter.value++;
+              ref.read(counterProvider.notifier).state++;
             },
-            tooltip: 'Increment',
             child: const Icon(Icons.add),
           ),
         ],
