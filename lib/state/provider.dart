@@ -1,24 +1,30 @@
 import 'package:faker/faker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class IndexNotifier extends Notifier<int> {
+class NameNotifier extends Notifier<List> {
   @override
-  int build() {
-    return 0;
+  List build() {
+    return List.generate(
+      10,
+      (index) => Faker().person.firstName(),
+    );
   }
 
-  choose() {
-    if (state < ref.read(listProvider.notifier).state.length - 1) {
-      state++;
-    } else {
-      state = 0;
-    }
+  void create() {
+    state = [...state, faker.person.firstName()];
+  }
+
+  void update(oldName) {
+    state = state
+        .map((item) => item == oldName ? faker.person.firstName() : item)
+        .toList();
+  }
+
+  void delete(name) {
+    state = List.from(state)..remove(name);
   }
 }
 
-final indexNotifierProvider = NotifierProvider<IndexNotifier, int>(() {
-  return IndexNotifier();
+final listNotifierProvider = NotifierProvider<NameNotifier, List>(() {
+  return NameNotifier();
 });
-
-final listProvider =
-    StateProvider((ref) => List.generate(5, (index) => Faker().person.name()));

@@ -1,33 +1,56 @@
 import 'package:demo/state/provider.dart';
 import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gap/gap.dart';
 
 class Home extends ConsumerWidget {
   const Home({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final index = ref.watch(indexNotifierProvider);
-
+    final item = ref.watch(listNotifierProvider);
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Update List with Riverpod'),
-        ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                ref.read(listProvider.notifier).state[index].toString(),
-                style: const TextStyle(fontSize: 30),
-              ),
-              IconButton(
-                  onPressed: () {
-                    ref.read(indexNotifierProvider.notifier).choose();
-                  },
-                  icon: const Icon(Icons.refresh)),
-            ],
-          ),
-        ));
+      appBar: AppBar(
+        title: const Text('Riverpod CRUD'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(10),
+        child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: item.length,
+            itemBuilder: (_, index) {
+              return Center(
+                child: Column(
+                  children: [
+                    const Gap(5),
+                    GestureDetector(
+                      onTap: () {
+                        ref
+                            .read(listNotifierProvider.notifier)
+                            .delete(item[index]);
+                      },
+                      onLongPress: () {
+                        ref
+                            .read(listNotifierProvider.notifier)
+                            .update(item[index]);
+                      },
+                      child: Text(
+                        item[index].toString(),
+                        style: const TextStyle(fontSize: 18),
+                      ),
+                    ),
+                    const Gap(5)
+                  ],
+                ),
+              );
+            }),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          ref.read(listNotifierProvider.notifier).create();
+        },
+        child: const Icon(Icons.add),
+      ),
+    );
   }
 }
