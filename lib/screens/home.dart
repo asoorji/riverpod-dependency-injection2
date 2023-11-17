@@ -13,37 +13,45 @@ class Home extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('Riverpod CRUD'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(10),
-        child: ListView.builder(
-            shrinkWrap: true,
-            itemCount: item.length,
-            itemBuilder: (_, index) {
-              return Center(
-                child: Column(
-                  children: [
-                    const Gap(5),
-                    GestureDetector(
-                      onTap: () {
-                        ref
-                            .read(listNotifierProvider.notifier)
-                            .delete(item[index]);
-                      },
-                      onLongPress: () {
-                        ref
-                            .read(listNotifierProvider.notifier)
-                            .update(item[index]);
-                      },
-                      child: Text(
-                        item[index].toString(),
-                        style: const TextStyle(fontSize: 18),
-                      ),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: item.length,
+                itemBuilder: (_, index) {
+                  return Center(
+                    child: Column(
+                      children: [
+                        const Gap(5),
+                        GestureDetector(
+                          onTap: () {
+                            ref
+                                .read(listNotifierProvider.notifier)
+                                .delete(item[index]);
+                          },
+                          onLongPress: () {
+                            ref
+                                .read(listNotifierProvider.notifier)
+                                .update(item[index]);
+                          },
+                          child: Text(
+                            item[index].toString(),
+                            style: const TextStyle(fontSize: 18),
+                          ),
+                        ),
+                        const Gap(5),
+                      ],
                     ),
-                    const Gap(5)
-                  ],
-                ),
-              );
-            }),
+                  );
+                }),
+          ),
+          Expanded(child: Container()),
+          const Text(
+              'NB: click to delete item\nLong press to edit the item\nClick the button to add new item'),
+          const Gap(50),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
