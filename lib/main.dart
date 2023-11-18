@@ -1,17 +1,31 @@
+import 'package:demo/home.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'screens/home.dart';
-
-final counterProvider = Provider<int>((ref) => 0);
+import 'service.dart';
 
 void main() {
-  runApp(ProviderScope(child: MyApp()));
+  runApp(MyApp());
 }
 
-class MyApp extends ConsumerWidget {
+class MyApp extends StatelessWidget {
   @override
-  Widget build(BuildContext context, ref) {
-    return MaterialApp(home: Home());
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: MainPage(),
+    );
+  }
+}
+
+class MainPage extends StatelessWidget {
+  MainPage({super.key});
+  final ApiService api = ApiService();
+  final UserRepository user = UserRepository();
+
+  @override
+  Widget build(BuildContext context) {
+    return Home(
+      apiService: api,
+      userRepository: user,
+    );
   }
 }
