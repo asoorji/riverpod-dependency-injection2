@@ -5,3 +5,7 @@ class ApiService {
 class UserRepository {
   String fetchUserData() => "User data from Repository";
 }
+
+class YogaClass {
+  String fetchYoga() => "These are the yoga classes";
+}

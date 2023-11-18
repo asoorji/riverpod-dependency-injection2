@@ -1,17 +1,18 @@
 import 'package:demo/home.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'service.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: MainPage(),
+    return const MaterialApp(
+      home: Home(),
     );
   }
 }
@@ -23,9 +24,6 @@ class MainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Home(
-      apiService: api,
-      userRepository: user,
-    );
+    return const Home();
   }
 }

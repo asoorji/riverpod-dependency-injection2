@@ -1,14 +1,16 @@
-import 'package:demo/service.dart';
+import 'package:demo/providers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class Home extends StatelessWidget {
-  final ApiService apiService;
-  final UserRepository userRepository;
-
-  Home({super.key, required this.apiService, required this.userRepository});
+class Home extends ConsumerWidget {
+  const Home({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
+    final api = ref.watch(apiProvider);
+    final user = ref.watch(userProvider);
+    final yoga = ref.watch(yogaProvider).fetchYoga();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Dependency Injection Manual'),
@@ -21,7 +23,7 @@ class Home extends StatelessWidget {
               'Data from ApiService:',
             ),
             Text(
-              apiService.fetchData(),
+              api.fetchData(),
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20),
@@ -29,7 +31,15 @@ class Home extends StatelessWidget {
               'Data from UserRepository:',
             ),
             Text(
-              userRepository.fetchUserData(),
+              user.fetchUserData(),
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 20),
+            const Text(
+              'Data from Yoga:',
+            ),
+            Text(
+              yoga,
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
           ],
